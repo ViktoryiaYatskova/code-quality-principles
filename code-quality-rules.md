@@ -8,349 +8,730 @@
 
 // TODO: написать
 
-## Общие правила
+## Общие принципы
 
-## 1. **DRY** — _dont repeat yourself_
+### 1. DRY — *Don't Repeat Yourself*
 or **DIE** — _Duplication Is Evil_
 
-##
 
 _Дублирование это зло!_
 
-Принцип призывает Вас не повторяться при написании кода. Все что Вы пишите в проекте, должно быть определено только один раз.
+Принцип призывает Вас не повторяться при написании кода. Все, что Вы пишите в проекте, должно быть определено только один раз.
+При не соблюдении этого принципа, программист будет вынужден вносить изменения в несколько повторяющихся фрагментов кода, вместо одного. Также дублирующийся код приводит к разрастанию программы, а значит, усложняет ее понимание, читабельность.
 
-### Примеры:
+</details>
 
-1. Циклы и функции (собственно сама цель этих сущностей в программировании - избежание дублирования логики)
+<details>
+    <summary>
+    **Хочу знать больше:**
+    </summary>
+    
+**История:**
+Принцип был впервые упомянут в книге  ["Программист-прагматик" Эндрю Ханта](https://ideafix.name/wp-content/uploads/stuff/book51.pdf) (1999). Однако ещё до выхода книги в свет он был широкоизвестен и повсеместно применялся. В то же время "Программист-прагматик точно определил принцип и дал ему имя.
+
+В книге DRY описывается как:
+
+> "Каждый фрагмент знания должен иметь единственное. однозначное,
+> надежное представление в системе",
+
+где под "фрагментом знаний" можно понимать как функциональный логически-завершенный кусок кода вашего приложения или алгоритм.
+
+</details>
+
+#### Примеры:
+
+<details>
+	<summary> 
+		**1. CSS: Группировка селекторов**
+	</summary>
+	
 ```
-const chips = ["corn", "pita", "potato", "tortilla"];
+h1 {
+  color: #ff0000;
+  font-family: Arial;
+}
+h2 {
+  color: #ff0000;
+  font-family: Arial;
+}
+h3 {
+  color: #ff0000;
+  font-family: Arial;
+}
+h4 {
+  color: #ff0000;
+  font-family: Arial;
+}
+```
 
+С использованием группировки селекторов CSS этот же код может быть написан так:
+
+```
+h1, h2, h3, h4 {
+  color: #ff0000;
+  font-family: Arial;
+}
+```
+
+</details>
+
+<details>
+	<summary> 
+		**2. CSS: Повторяющиеся группы стилей в классы**
+	</summary>
+	
+	Если один набор CSS-свойств задает стиль нескольких элементов на странице, то такую обычно объединяют в одним CSS-класс:  
+
+```
+p {
+	margin-botton: 10px;
+	text-indent: 10px;
+}
+
+/* Re-used styles */
+.quotation {
+    font-family: "Helvetica";
+    font-style: italic;
+    text-indent: 20px;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+```
+
+```
+<section>
+	<h2 class="bold-text">Жалобная книга</h2>
+	<p>
+	Лежит она, эта книга, в специально построенной для нее конторке на станции железной дороги. Ключ от конторки «хранится у станционного жандарма», на деле же никакого ключа не нужно, так как конторка всегда отперта. Раскрывайте книгу и читайте:
+	</p>
+	<p class="quotation">«Милостивый государь! Проба пера!?»<p>
+	<p>Под этим нарисована рожица с длинным носом и рожками. Под рожицей написано:</p>	
+	<p class="quotation">«Ты картина, я портрет, ты скотина, а я нет. Я — морда твоя».</p>
+	<p>«Подъезжая к сией станцыи и глядя на природу в окно, у меня слетела шляпа. И. Ярмонкин».</p>
+</section>
+
+```
+
+</details>
+    
+<details>
+	<summary> 
+		**3. JS: Циклы**
+	</summary>
+
+```
 // non DRY code
-console.log(chips[0]);
-console.log(chips[1]);
-console.log(chips[2]);
+console.log('corn');
+console.log('pita');
+console.log('potato');
+console.log('tortilla');
+```
 
+```
 // DRY code
+const chips = ['corn', 'pita', 'potato', 'tortilla'];
+
 for ( let i = 0; i < chips.length; i++) {
     console.log(chips[i]);
 }
 ```
-
-// TODO: найти ещё примеров
-
-<details>
-    <summary>### Хочу знать больше:</summary>
-    
-    **History**: The principle was first introduced in the book The Pragmatic Programmer (by Andy Hunt, 1999). The principle itself was known and applied before this book came to life. However, the Pragmatic Programmer defined it precisely and put a name on it.
-    
-    In The Pragmatic Programmer, DRY is defined as
-     &quot;Every piece of knowledge must have a single, unambiguous, authoritative representation within a system&quot;.
-    
-    Where, piece of knowledge, can be defined as either:
-    
-    Either, a precise functionality in the business domain of your application;
-    
-    Or an algorithm;
-    
-    // TODO: перевести на понятный русский
 </details>
 
-## **2. KISS** — _keep it short simple / keep it simple, stupid_
+<details>
+	<summary> 
+		**4. JS: Функции**
+	</summary>
 
+Дублирующуюся логику удобно выносить в функции.
+
+```
+const today = new Date();
+const weekday = today.getDay();
+
+// non DRY code
+if (weekDay === 'Sunday' || weekDay === 'Saturday' ) {
+    console.log('Today is ', today, 'So my day plan includes: ', 'sleep, eat, rest');
+} else {
+    console.log('Today is ', today, 'So my day plan includes: ', 'work, work, work');
+}
+
+// DRY code
+const today = new Date();
+const weekday = today.getDay();
+
+// non DRY code
+if (weekDay === 'Sunday' || weekDay === 'Saturday' ) {
+    logDayPlan(today, 'sleep, eat, rest');
+} else {
+    logDayPlan(today, 'work, work, work');
+}
+
+function logDayPlan(weekday, tasks) {
+    console.log('Today is ', weekday, 'So my day plan includes: ', tasks);
+}
+
+```
+</details>
+
+### 2. KISS — _keep it short simple / keep it simple, stupid_
 
 _Делайте вещи проще!_
  Порой наиболее правильное решение – это наиболее простая реализация задачи, в которой нет ничего лишнего.
 
 // TODO: больше объяснений
 
-Примеры: // TODO: написать
+<details>
+    <summary>**Примеры**:</summary>
+    
+    // TODO: написать
+</details>
 
-Хочу знать больше: // TODO: написать
+<details>
+    <summary>**Хочу знать больше:**</summary>
+    
+    // TODO: написать
+</details>
 
-2.
-## **YAGNI** — _You ain"t gonna need it_
+### 3. YAGNI — _You ain"t gonna need it_
 
-_ **Вам это не понадобится!** _
+_Вам это не понадобится!_
+
  Все что не предусмотрено техническим заданием проекта, не должно быть в нем.
 
 // TODO: больше объяснений
 
-Примеры: // TODO: написать
+<details>
+    <summary>**Примеры**:</summary>
+    
+    // TODO: написать
+</details>
 
-Хочу знать больше: // TODO: написать
+<details>
+    <summary>**Хочу знать больше**:</summary>
+    
+    // TODO: написать
+</details>
 
-1. **Комментарии**
+### 4. Комментарии
 
-// TODO: перевести
+Поясняй код при необходимости, где это возможно.
 
-Explain code as needed, where possible.
+Используйте комментирации для пояснения кода:
 
-Use comments to explain code: What does it cover, what purpose does it serve, why is respective solution used or preferred?
+- что он покрывет?
+- какова его задача?
+- почему такое решение используется или предпочтительно?
 
-(This item is optional as it is not deemed a realistic expectation to always demand fully documented code. Mileage may vary heavily for HTML and CSS code and depends on the project"s complexity.)
+В тоже время не стоит пытаться покрыть комментариями весь код. Использование значимых названий переменных и функций, разбитие кода на логические фрагменты с помощью функции и другие практики помогают сделать код максимально читаемым и понятным, не прибегая к комментариям (самодокументирующийся код). 
 
-1. **Action Items**
+Тем не менее, бывают случаи, когда поясняющие комментарии нужны, вне зависимости от того, как выглядит ваш код.
 
-// TODO: перевести
+Обычно это происходит, когда вам нужно добавить контекст к неинтуитивному решению.
 
-Mark todos and action items with TODO.
 
-Highlight todos by using the keyword TODO only.
+```
+// Not recommended
+const MAIN_TEXT_COLOUR = '#000000'; // colour for main text on the page
+```
+Комментарий тут излишен, так как он поясняет очевидное из названия переменной назначение константы.
 
-Append a contact (username or mailing list) in parentheses as with the format TODO(contact).
+А вот хороший пример из библиотеки Lodash:
 
-Append action items after a colon as in TODO: action item.
+```
+// Recommended
 
-| {# TODO(john.doe): revisit centering #}
-<center\&gt;Test</center\&gt;
-_<!--_ _TODO:_ _remove optional tags --\&gt;_
-<ul\&gt;
-<li\&gt;Apples</li\&gt;
-<li\&gt;Oranges</li\&gt;
-</ul\&gt; |
-| --- |
+function addSetEntry(set, value) {   
+  // Don't return `set.add`, as this call chain doesn't work in Internet Explorer 11
+  set.add(value);    
+  return set;  
+}
 
-1. **Хвостовые пробелы (Trailing whitespaces)**
+```
+[Подробнее о комментариях](https://learn.javascript.ru/comments)
 
-Хвостовые проблемы являются излишними, к тому же они усложняют commit-изменения в Github (вы видите лишнюю строчку/символ изменений, не несущего смыслового изменения)
+#### 4.1 Отложенные задачи (TODO)
+_Частный случай комментариев_
 
-| _<!-- Not recommended --\&gt;_
-<p\&gt;What?\_
-_<!-- Recommended --\&gt;_
-<p\&gt;Yes please. |
-| --- |
+TODO - от англ. *to do* (пер. "сделать") используется для обозначения запланированного изменения прямо в комментариях кода. Обычно эта задача относится к несрочным изменениям, но достаточно важным. Поэтому разработчики прямо в коде оставляют своего рода напоминае себе и другим программистам.
 
-## HTML + CSS
+- Впереди такой пометки используйте префикс "ТODO: ...".
+- Используйте только данный тип обозначения для TODO-задач.
+
+```
+// TODO: move this magic number (15 rows) to the configuration file
+for (let i = 0; i < 15; i++) {
+    const row = document.createElement('tr');
+    table.appendChild(row);
+}
+```
+```
+<!-- TODO: remove optional tags -->
+<ul>
+  <li>Apples</li>
+  <li>Oranges</li>
+</ul>
+```
+
+
+### 5. Пробелы в конце строки
+*англ. Trailing whitespaces*
+
+Пробелы в конце строки являются излишними, к тому же они усложняют commit-изменения в Github (вы видите лишнюю строчку/символ изменений, не несущего смыслового изменения)
+
+```
+<!-- Not recommended -->
+<p>What?_
+
+<!-- Recommended -->
+<p>Yes please. 
+```
+
+## Общие правила для HTML + CSS
 
 ## Уровень 1:
 
-- **Отступы**
+### 1. Отступы
 
-Соблюдайте отступы в 2 пробела на каждый.
+Всегда используйте для одного отступа два пробела.
+Не используйте табуляцию (tab-символ) для отступов и не смешивайте виды отступов (tab и пробелы одновременно).
 
-Не используйте tab-ы для отступов или смешанные отступы (tab и пробелы одновременно).
-
-Почему?
+<details>
+    <summary>**Почему?**</summary>
 
 Так как над проектами работает команда людей, то зачастую один исходный код проекта отображается в различных редакторах кода. Проблемы начинаются тогда, когда в одном файле используются разные методы идентации. Так как каждый редактор кода по разному отображает tab-отступ, то красивый файл в вашей IDE, может выглядеть совсем несуразно в другой.
 
-[https://dev.by/news/otstupy-tab-ili-probel-programmist-proanaliziroval-milliard-faylov-i-nashyol-otvet](https://dev.by/news/otstupy-tab-ili-probel-programmist-proanaliziroval-milliard-faylov-i-nashyol-otvet)
+[Источник](https://dev.by/news/otstupy-tab-ili-probel-programmist-proanaliziroval-milliard-faylov-i-nashyol-otvet)
 
-| <ul\&gt;
-<li\&gt;Fantastic
-<li\&gt;Great
-</ul\&gt; |
-| --- |
+</details>
 
-| .example {
-color: blue;
- } |
-| --- |
+```
+<ul>
+  <li>Fantastic
+  <li>Great
+</ul>
 
-- **Нижний регистр написания**
+.example {
+  color: blue;
+}
+```
 
-Весь код должен быть в нижнем регистре. Это касается всех HTML-имен, включая атрибуты, значения атрибутов, CSS-селекторы, CSS-свойства и значения.
+### 2. Нижний регистр написания
 
-| _<!-- Not recommended --\&gt;_
-<A HREF=&quot;/&quot;\&gt;Home</A\&gt;
-<!-- Recommended --\&gt;<img src=&quot;google.png&quot; alt=&quot;Google&quot;\&gt; |
-| --- |
+Весь код должен быть в нижнем регистре. Это касается всех HTML-имен, включая названия атрибутов, значения атрибутов, CSS-селекторы, CSS-свойства и их значения.
 
-| _/\* Not recommended \*/_
-**color** : **#E5E5E5** ;
-_/\* Recommended \*/_
-**color** : **#e5e5e5** ; |
-| --- |
+```
+<!-- Not recommended -->
+<A HREF="/">Home</A>
+
+<!-- Recommended -->
+<img src="google.png" alt="Google">
+```
+
+```
+/* Not recommended */
+color : #E5E5E5 ;
+
+/* Recommended */
+color : #e5e5e5 ;
+```
+
 
 ## HTML
 
-## Уровень 1:
+### Уровень 1:
 
-- **General Formatting**
+#### 1.Форматирование
 
-// TODO: перевести
+Выделяйте новую строку для каждого блочного, табличного или списочного элемента, независимо от заданных для них стилей. И ставьте отступы для каждого вложенного элемента.
 
-Use a new line for every block, list, or table element, and indent every such child element.
+**Примеры:**
 
-Independent of the styling of an element (as CSS allows elements to assume a different role per display property), put every block, list, or table element on a new line.
+```
+<blockquote>
+  <p><em>Space</em>, the final frontier.</p>
+</blockquote>
+```
 
-Also, indent them if they are child elements of a block, list, or table element.
+```
+<ul>
+	<li>Маша</li>
+	<li>Глаша</li>
+	<li>Чебураша</li>
+</ul>
+```
+```
+<table>
+   <thead>
+   	  <tr>
+        <th scope="col">Прибыль</th>
+        <th scope="col">Налоги</th>
+     <tr>
+   </thead>
+   <tbody>
+      <tr>
+        <td>$ 5.00</td>
+        <td>$ 4.50</td>
+      <tr>
+   </tbody>
+</table>
+```
 
-(If you run into issues around whitespace between list items it"s acceptable to put all li elements in one line. A linter is encouraged to throw a warning instead of an error.)
+### 2. Тип документа / Document Type 
 
-| <blockquote\&gt;
-<p\&gt;<em\&gt;Space</em\&gt;, the final frontier.</p\&gt;
-</blockquote\&gt;
-<ul\&gt;
-<li\&gt;Moe
-<li\&gt;Larry
-<li\&gt;Curly
-</ul\&gt;
-<table\&gt;
-<thead\&gt;
-<tr\&gt;
-<th scope=&quot;col&quot;\&gt;Income
-<th scope=&quot;col&quot;\&gt;Taxes
-<tbody\&gt;
-<tr\&gt;
-<td\&gt;$ 5.00
-<td\&gt;$ 4.50
-</table\&gt; |
-| --- |
+Используйте HTML5 (точка).
 
-- **Document Type**
+HTML5 рекомендуется для всех видов HTML-документов и обозначается первым тегом в HTML документе: 
+`<!DOCTYPE html>`
 
-// TODO: перевести
+### 3. Кавычки в HTML документе
 
-Use HTML5.
+Используйте двойные кавычки вместо одинарных для задания значений атрибутов.
 
-HTML5 (HTML syntax) is preferred for all HTML documents: <!DOCTYPE html\&gt;.
+```
+<!-- Not recommended -->
+<a class='main-button main-button-secondary'>Sign in</a>
 
-(It"s recommended to use HTML, as text/html. Do not use XHTML. XHTML, as application/xhtml+xml, lacks both browser and infrastructure support and offers less room for optimization than HTML.)
+<!-- Recommended -->
+<a class="main-button main-button-secondary">Sign in</a>
+```
 
-Although fine with HTML, do not close void elements, i.e. write <br\&gt;, not <br /\&gt;.
+### 4. Символы-мнемоники
+Не используйте символы-мнемоники.
 
-- **HTML Quotation Marks**
+Нет смысла использовать мнемоники, такие как `&mdash;`(&mdash;), `&rdquo;`(&rdquo;) или `&#x263a;`(&#x263a;), когда все команды в файлах, редакторах используют одну кодировку (UTF-8)
 
-When quoting attributes values, use double quotation marks.
+Единственное исключение из этого правила — служебные символы HTML (например < и &), а так же вспомогательные и “невидимые” символы (например неразрывный пробел).
 
-Use double (&quot;&quot;) rather than single quotation marks ("") around attribute values.
+```
+<!-- Not recommended -->
+<div>Валютный знак евро: &ldquo;&eur;&rdquo;.</div>
+ 
+ <!--  Recommended -->
+<div>Валютный знак евро: “€”. </div>
+```
 
-| _<!-- Not recommended --\&gt;_
-<a class="maia-button maia-button-secondary"\&gt;Sign in</a\&gt;
-_<!-- Recommended --\&gt;_
-<a class=&quot;maia-button maia-button-secondary&quot;\&gt;Sign in</a\&gt; |
-| --- |
+### 5. Атрибут 'type'
+
+Не указывайте атрибут `type` при подключении стилей и скриптов в документ.
+
+Не используйте атрибут `type` при подключении стилей (кроме вариантов когда используется что-то кроме CSS) и скриптов (кроме вариантов когда это не JavaScript).
+
+<details>
+	<summary>**Почему?**</summary>
+	Указывать атрибут type в данном случае не обязательно потому что HTML5 использует text/css (англ.) и text/javascript (англ.) по умолчанию.
+	Это будет работать даже в старых браузерах.
+</details>
+
+```
+<!--  Not recommended -->
+<link rel="stylesheet" href="//www.google.com/css/main.css"
+  type="text/css">
+
+<!--  Recommended -->
+<link rel="stylesheet" href="//www.google.com/css/main.css">
+
+```
+```
+<!--  Not recommended -->
+<script src="//www.google.com/js/gweb/analytics/autotrack.js"
+  type="text/javascript"></script>
+
+<!--  Recommended -->
+<script src="//www.google.com/js/gweb/analytics/autotrack.js"></script>
+```
+
 
 ## Уровень 2:
 
-- **Соблюдай семантику**
+### 4. Семантика
+Используйте HTML так, как это было задумано.
 
-// TODO: перевести
+Используйте элементы по назначению: заголовки для заголовков, p для абзацев, a для ссылок и т.д.
 
-Semantics
+Почему? 
+Это облегчает чтение, редактирование и поддержку кода.
 
-Use HTML according to its purpose.
 
-Use elements (sometimes incorrectly called &quot;tags&quot;) for what they have been created for. For example, use heading elements for headings, p elements for paragraphs, a elements for anchors, etc.
+```
+<!-- Not recommended -->
+<div onclick="goToRecommendations();">
+	All recommendations
+</div>
 
-Using HTML according to its purpose is important for accessibility, reuse, and code efficiency reasons.
+<!-- Recommended -->
+<a href="recommendations/">
+	All recommendations
+</a>
+```
 
-| _<!-- Not recommended --\&gt;_
-<div onclick=&quot;goToRecommendations();&quot;\&gt;All recommendations</div\&gt;
-_<!-- Recommended --\&gt;_
-<a href=&quot;recommendations/&quot;\&gt;All recommendations</a\&gt; |
-| --- |
+### 5. Альтернатива для мультимедиа
 
-- **Multimedia Fallback**
+Всегда указывайте альтернативное содержимое для мультимедиа.
 
-// TODO: перевести
+Постарайтесь указать альтернативное содержимое для мультимедиа: например для картинок, видео или анимаций, заданных с помощью canvas.
 
-Provide alternative contents for multimedia.
+Для картинок это осмысленный альтернативный текст (alt), а для видео и аудио - расшифровки текста и подписи, если это возможно.
 
-For multimedia, such as images, videos, animated objects via canvas, make sure to offer alternative access. For images that means use of meaningful alternative text (alt) and for video and audio transcripts and captions, if available.
+<details>
+    <summary>**Почему?**</summary>
 
-Providing alternative contents is important for accessibility reasons: A blind user has few cues to tell what an image is about without @alt, and other users may have no way of understanding what video or audio contents are about either.
+Альтернативное содержимое может помочь людям с с ограниченными возможностями. Например человеку со слабым зрением сложно понять, что на картинке, если для нее не задан `alt`. Другим людям может быть тяжело понять, о чем говорится в видео или аудио записи.
 
-(For images whose alt attributes would introduce redundancy, and for images whose purpose is purely decorative which you cannot immediately use CSS for, use no alternative text, as in alt=&quot;&quot;.)
+</details>
 
-| _<!-- Not recommended --\&gt;_
-<img src=&quot;spreadsheet.png&quot;\&gt;
-_<!-- Recommended --\&gt;_
-<img src=&quot;spreadsheet.png&quot;alt=&quot;Spreadsheet screenshot.&quot;\&gt; |
-| --- |
+(Если для картинки alt избыточен, или она используется только в декоративных целях в местах, где нельзя использовать CSS, используйте пустой альтернативный текст `alt=""`)
 
-## По желанию:
+```
+<!-- Not recommended -->
+<img src="spreadsheet.png">
 
-- **HTML Line-Wrapping**
+<!-- Recommended -->
+<img src="spreadsheet.png"alt="Spreadsheet screenshot">
+```
 
-**B** reak long lines (optional).
+###  Опциональные рекомендации:
 
-While there is no column limit recommendation for HTML, you may consider wrapping long lines if it significantly improves readability.
+#### HTML Line-Wrapping
 
-When line-wrapping, each continuation line should be indented at least 4 additional spaces from the original line.
+Разбивайте длинные строки на несколько.
 
-| <md-progress-circular md-mode=&quot;indeterminate&quot;class=&quot;md-accent&quot;
-ng-show=&quot;ctrl.loading&quot;md-diameter=&quot;35&quot;\&gt;
-</md-progress-circular\&gt;
+Разбиение длинного текста на несколько строк может значительно улучшить читаемость кода.
+
+При разбиении строк рекомендуется перед каждой перенесенной строкой от начальной поставить отступ хотя бы в 4 пробела.
+
+**Примеры:**
+
+```
+<md-progress-circular md-mode="indeterminate"class="md-accent"
+    ng-show="ctrl.loading"md-diameter="35">
+</md-progress-circular>
+
+```
+
+```
 <md-progress-circular
-md-mode=&quot;indeterminate&quot;
-class=&quot;md-accent&quot;
-ng-show=&quot;ctrl.loading&quot;
-md-diameter=&quot;35&quot;\&gt;
-</md-progress-circular\&gt;
-<md-progress-circular md-mode=&quot;indeterminate&quot;
-class=&quot;md-accent&quot;
-ng-show=&quot;ctrl.loading&quot;
-md-diameter=&quot;35&quot;\&gt;
-</md-progress-circular\&gt; |
-| --- |
+    md-mode="indeterminate"
+    class="md-accent"
+    ng-show="ctrl.loading"
+    md-diameter="35">
+</md-progress-circular>
+```
+```
+<md-progress-circular md-mode="indeterminate"
+                      class="md-accent"
+                      ng-show="ctrl.loading"
+                      md-diameter="35">
+</md-progress-circular>
+```
+
 
 ## CSS
 
 ## Уровень 1:
 
-- **Единый стиль именования селекторов (классов / id)**
+### 1. Единый стиль именования селекторов (классов / id)
 
-// TODO: расписать
+Какой бы стиль написания имен вы не выбрали, соблюдайте его во всем проекте. 
 
-- **ID and Class Naming**
+Если вы используете БЭМ, придерживайтесь этой нотации без исключения. 
 
-Use meaningful or generic ID and class names.
+Иначе рекомендуется использовать дефис для разделения слов в селекторах. 
 
-Instead of presentational or cryptic names, always use ID and class names that reflect the purpose of the element in question, or that are otherwise generic.
+[Подробнее о БЭМ](https://ru.bem.info/methodology/quick-start/)
 
-Names that are specific and reflect the purpose of the element should be preferred as these are most understandable and the least likely to change.
+```
+/* Не рекомендуется: слова “demo” и “image” не разделены */
+.demoimage {}
+  
+/* Не рекомендуется: используется подчеркивание вместо дефиса */
+.error_status {}
 
-Generic names are simply a fallback for elements that have no particular or no meaning different from their siblings. They are typically needed as &quot;helpers.&quot;
+/* Рекомендуется */
+#video-id {}
+.ads-sample {}
 
-Using functional or generic names reduces the probability of unnecessary document or template changes.
 
-| _/\* Not recommended: meaningless \*/_
-**#yee-1901** {}
+/* Рекомендуется в случае использования БЭМ */
+.search-form__button {}
+```
 
-_/\* Not recommended: presentational \*/_
- .button-green {}
- .clear {}
-_/\* Recommended: specific \*/_
-**#gallery** {}
-**#login** {}
- .video {}
+### 2. Значимые названия идентификаторов и классов: 
 
-_/\* Recommended: generic \*/_
- .aux {}
- .alt {} |
-| --- |
+Используйте шаблонные или осмысленные имена классов и идентификаторы.
+
+Вместо использования шифров, или описания внешнего вида элемента, попробуйте в имени класса или идентификатора выразить смысл его создания, или дайте ему шаблонное имя…
+
+рекомендуется выбирать имена, отражающие сущность класса, потому что их проще понять и, скорее всего, не понадобится менять в будущем.
+
+Шаблонные имена — это просто вариант названия для элементов, у которых нет специального предназначения или которые не отличаются от своих братьев и сестер. Обычно они необходимы в качестве “Помощников”.
+
+Использование функциональных или шаблонных имен уменьшает необходимость ненужных изменений в документа или шаблонах.
+
+```
+/* Не рекомендуется: не имеет смысла */
+  #yee-1901 {}
+  
+/* Не рекомендуется: описание внешнего вида */
+  .button-green {}
+  .clear {}
+  
+```
+```
+/* Рекомендуется: точно и по делу */
+  #gallery {}
+  #login {}
+  .video {}
+  
+/* Рекомендуется: шаблонное имя */
+  .clearfix {}
+  .alt {}
+``` 
+
+### 3. Лаконичность названий идентификаторов и классов
+
+Для идентификаторов и классов используйте настолько длинные имена, насколько нужно, но настолько короткие, насколько возможно.
+
+Попробуйте сформулировать, что именно должен делать данный элемент, при этом будьте кратки насколько возможно.
+
+Такое использование классов и идентификаторов вносит свой вклад в облегчение понимания и увеличение эффективности кода.
+
+```
+  /* Не рекомендуется */
+  #navigation {}
+  .atr {}
+```
+
+```
+  /* Рекомендуется */
+  #nav {}
+  .author {}
+```
+
+### 4.Теговые селекторы
+
+Избегайте использование имен классов или идентификаторов с селекторами тега элемента.
+
+Кроме случаев когда это не обходимо (например с классами-помощниками), не используйте названия элементов с именами классов или идентификаторами.
+
+Это повышает производительность.
+
+<details>
+	<summary>
+	**Подробнее о производительности:**
+	</summary>
+https://www.stevesouders.com/blog/2009/06/18/simplifying-css-selectors/
+</details>
+
+```
+  /* Не рекомендуется */
+  ul#example {}
+  div.error {}
+
+  /* Рекомендуется */
+  #example {}
+  .error {}
+```
+
+
+### 5.Отступы в блоках.
+Всегда ставьте отступы для содержимого блоков.
+
+Всегда ставьте отступы для любого содержимого в блоке ( блоки разделены фигурными скобками {}).
+Например для правил внутри правил или объявлений, чтобы отобразить иерархию и облегчить понимание кода.
+
+```
+@media screen, projection {
+  
+  html {
+    background: #fff;
+    color: #444;
+  }
+    
+}
+```
+
+### 6. Пробел после названий свойств
+Используйте пробелы после двоеточий в объявлениях.
+
+Всегда используйте один пробел после двоеточия (но не до) в объявлениях, для порядка в коде.
+
+```
+/* Not recommended */
+  h3 {
+    font-weight:bold;
+  }
+
+/* Recommended */
+  h3 {
+    font-weight: bold;
+  }
+  
+```
+
+
+### 7. Точка с запятной после свойств
+
+Ставьте точку с запятой после каждого свойства.
+
+После каждого объявления ставьте точку с запятой для согласованности кода и облегчения добавления новых свойств
+
+```
+/* Not recommended */
+.test {
+    display: block;
+    height: 100px
+}
+
+/* Recommended */
+.test {
+    display: block;
+    height: 100px;
+}
+ 
+```
+
+### 8. Разделение селекторов и свойств
+
+Отделяйте селекторы и свойства переносом строки.
+
+Начинайте каждый селектор или правило с новой строки.
+
+```
+/* Not recommended */
+  a:focus, a:active {
+    position: relative; top: 1px;
+  }
+
+/* Recommended */
+  h1,
+  h2,
+  h3 {
+    font-weight: normal;
+    line-height: 1.2;
+  }
+  
+```
+
 
 ## Уровень 2:
 
-- **БЭМ**
+### 9. БЭМ
 
-- **Type Selectors**
+Используйте БЭМ нотация для формирования имен классов и идентификаторов
 
-Avoid qualifying ID and class names with type selectors.
+[Подробнее о БЭМ](https://ru.bem.info/methodology/quick-start/)
 
-Unless necessary (for example with helper classes), do not use element names in conjunction with IDs or classes.
-
-Avoiding unnecessary ancestor selectors is useful for performance reasons.
-
-| _/\* Not recommended \*/_
-**ul**** #example** {}
-**div**.error {}
-_/\* Recommended \*/_
-**#example** {}
- .error {} |
-| --- |
 
 ## JS
 
 - Волшебные числа (Magic numbers)
 - Еще раз про дубликацию кода
-  - Выноси одинаковую логику в функции
-
+	- Выноси повторяющуюся логику в функции
 - Избегай вложенных функций
 - Небольшие функции
-- Одна функция - одно ~~действие~~
+- Одна функция - одно назначение
 
 ## GIT Commits
 
