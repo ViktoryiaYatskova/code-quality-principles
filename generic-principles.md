@@ -94,8 +94,8 @@ h1, h2, h3, h4 {
 
 ```
 p {
-	margin-botton: 10px;
-	text-indent: 10px;
+    margin-botton: 10px;
+    text-indent: 10px;
 }
 
 /* Re-used styles */
