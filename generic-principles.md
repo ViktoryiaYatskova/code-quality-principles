@@ -323,6 +323,6 @@ for (let i = 0; i < 15; i++) {
 
 ### Далее:
 - [HTML и CSS рекомендации - начальный уровень](./html-and-css.md)
-- [JavaScript рекомендаии](./javascript.md)
+- [JavaScript рекомендации](./javascript.md)
 - [Рекомендации к commit-ам](./commit.md)
 - [Автоматизируй это](./automation.md)
