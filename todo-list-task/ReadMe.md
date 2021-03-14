@@ -23,4 +23,4 @@
     - Установка элемента в статус незавершенного и перенос в список "TODO" через checkbox
 
 - Внешний вид приложения не изменился (**иначе незачет**)
-![image](https://user-images.githubusercontent.com/8201843/111073648-9151b280-84f0-11eb-81d0-ea5ef51872b4.png)
+![image](https://user-images.githubusercontent.com/8201843/111080709-d1289200-8510-11eb-861c-c39de6d99691.png)
