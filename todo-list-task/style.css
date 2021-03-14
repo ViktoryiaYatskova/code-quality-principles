@@ -13,10 +13,15 @@ body {
 .aaa img {
     width: 100%;
 }
-.aaa .more_info {
+.aaa .more_inf {
     font-family: fantasy, cursive;
 }
-.container {
+
+@media (max-width:768px) {
+.aaa { text-align: center;
+}
+}
+.centered-main-page-element {
     display: block;
     width: 400px;
     margin: 0 auto 0;
@@ -32,10 +37,7 @@ ul {
 li, h3 {
     list-style:none;
 }
-input{
-    outline: none;
-}
-button{
+input,button{
     outline:none;
 }
 button {
@@ -111,20 +113,20 @@ li > label {
 li >    input[type="text"] {
     width: 226px
 }
-li > .delete:hover {
+li > button.delete:hover {
     color: #CF2323;
 }
-.delete img {
+button.delete img {
     height: 2em;
     transform: rotateZ(45deg);
     transition: transform 200ms ease-in;
 }
-.delete img:hover {
+button.delete img:hover {
     transform: rotateZ(0);
 }
 
 /* Completed */
-#completed-tasks label {
+ul#completed-tasks label {
     text-decoration: line-through
     color: #888;
 }
