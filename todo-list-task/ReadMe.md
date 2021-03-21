@@ -26,8 +26,8 @@
 
 _Пример:_
 ```
-fix: add Html5 DOCTYPE tag according to rule 1.1.2 in html-and-css.md
-refactor: adjust HTML-formatting according to rule 1.1.1 in html-and-css.md
+fix: add Html5 DOCTYPE tag according to rule 2.2 in html-and-css.md
+refactor: adjust HTML-formatting according to rule 2.1 in html-and-css.md
 ```
 
 - Весь функционал приложения должен исправно работать после ваших изменений, а именно:
