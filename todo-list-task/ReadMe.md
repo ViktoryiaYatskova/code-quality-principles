@@ -64,4 +64,5 @@ refactor: adjust HTML-formatting according to rule 2.1 in html-and-css.md
 [Документ для вопросов](https://docs.google.com/spreadsheets/d/1lgzmc72mKCmYvHimvqBNENgKJuXMON8q1f1s4GEnEVI/edit?usp=sharing)
 
 ## Cross-check
+- форма для проверки задания: https://clean-code-s1e1-cross-check.netlify.app/
 - инструкция по проведению cross-check: https://docs.rs.school/#/cross-check-flow
